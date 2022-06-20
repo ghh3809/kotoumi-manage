@@ -24,7 +24,6 @@ hs_err_pid*
 
 # user ignore
 output
-src/main/resources/application.properties
 .idea
 *.iml
 target
