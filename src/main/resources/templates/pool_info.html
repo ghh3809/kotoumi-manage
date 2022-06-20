@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>原神☆海鸟阁管理中心-卡池信息</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="stylesheet" href="css/layui.css">
+    <link rel="stylesheet" href="css/font.css">
+
+    <script src="js/jquery.min.js"></script>
+    <script src="lib/layui/layui.js" charset="utf-8"></script>
+    <style>
+        #but_add_div {
+            margin: 10px;
+        }
+
+        #select_div {
+            margin: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+<form class="layui-form">
+    <div class="layui-form-item">
+
+        <div class="layui-inline">
+            <div class="layui-input-inline" style="width: 400px">
+                <select id="wish_type" name="wish_type" lay-filter="select_wish_type">
+                    <option value="1">常驻-90抽保底无up池</option>
+                    <option value="2">武器UP-80抽保底武器up（75%）池</option>
+                    <option value="3">角色&群友UP-90抽保底角色up（50%）池且有大保底</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <div id="but_add_div" class="layui-input-inline">
+                <button id="add_but" type="button" class="layui-btn layui-btn-normal">添加</button>
+            </div>
+        </div>
+    </div>
+
+
+</form>
+
+
+<table class="layui-hide" id="test" lay-filter="test"></table>
+
+
+<script>
+    layui.use(['layer', 'jquery', 'form'], function () {
+        var layer = layui.layer,
+            $ = layui.jquery,
+            form = layui.form;
+
+        form.on('select(select_wish_type)', function (data) {
+            change_sel(data.value);
+        });
+    });
+    function change_sel(wish_type){
+        layui.use('table', function () {
+            var table = layui.table;
+
+            table.render({
+                elem: '#test'
+                , url: '/pool_info_sel/'+wish_type
+                , title: '用户数据表'
+                , cols: [
+                    [
+                        {field: 'id', title: 'ID', width: 55}
+                        , {field: 'wish_event_name', title: '祈愿池名称'}
+                        , {field: 'unit_five_region', title: '五星范围'}
+                        , {field: 'unit_four_region', title: '四星范围'}
+                        , {field: 'start_time', title: '开始时间', width: 190}
+                        , {field: 'end_time', title: '结束时间', width: 190}
+                        , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150}
+                    ]
+                ]
+            });
+            table.on('tool(test)', function (obj) {
+                var data = obj.data;
+                //console.log(obj)
+                if (obj.event === 'del') {
+                    layer.confirm('真的删除ID为' + data.id + '的Pool吗？', function (index) {
+                        console.log(data.id);
+                        $.ajax({
+                            type: "POST",
+                            async: false,
+                            url: "/del_this_id_pool",
+                            data: {"fjson": data.id},
+                            success: function (result) {
+                                if (result == "error_1") {
+                                    layer.msg("删除失败", {icon: 5, shade: 0.7});
+                                } else if (result == "success") {
+                                    layer.msg('删除成功！', {
+                                        icon: 16
+                                        , shade: 0.7
+                                        , time: 1000
+                                    }, function () {
+                                        obj.del();
+                                        layer.close(index);
+                                    });
+                                }
+                            }
+                        });
+
+                    });
+                } else if (obj.event === 'edit') {
+                    layer.open({
+                        type: 2,
+                        title: '修改ID为"' + data.id + '"的Pool信息',
+                        shadeClose: true,
+                        shade: 0.8,
+                        area: ['800px', '850px'],
+                        content: '/pool_info_edit/' + data.id + '' //iframe的url
+                    });
+                }
+            });
+
+
+        });
+    }
+    change_sel(1);
+
+</script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script>
+    $("#add_but").click(function () {
+        layer.open({
+            type: 2,
+            title: '新加祈愿池',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['1400px', '800px'],
+            content: '/pool_info_add' //iframe的url
+        });
+    });
+    $(document).ready(function () {
+        document.onkeydown = kp;
+
+        function kp(e) {
+            e = window.event || e;
+            var obj = e.target || e.srcElement; //获取事件源
+            var k = e.keyCode || e.which;
+            //获取作为判断条件的事件类型
+            var vReadOnly = obj.getAttribute('readonly');
+            var vEnabled = obj.getAttribute('enabled');
+            if (k == 8 && (vReadOnly || vEnabled)) {
+                return false;
+            }
+        }
+    });
+</script>
+<script src="js/disable_backspace.js"></script>
+</body>
+
+
+</html>

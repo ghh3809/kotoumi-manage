@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Title</title>
+    <style>
+        body {
+            background-image: url("images/02.jpg");
+        }
+    </style>
+</head>
+<body>
+<div></div>
+<script src="js/jquery-3.4.1.min.js"></script>
+<script>
+    document.getElementsByTagName("body")[0].style.height = document.body.scrollHeight + "px";
+    document.getElementsByTagName("body")[0].style.width = document.body.scrollWidth + "px";
+    window.onresize = function () {
+        document.getElementsByTagName("body")[0].style.height = document.body.scrollHeight + "px";
+        document.getElementsByTagName("body")[0].style.width = document.body.scrollWidth + "px";
+    }
+</script>
+</body>
+</html>

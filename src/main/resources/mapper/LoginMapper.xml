@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qinbaoge.hngmanagementsystem.Mapper.LoginMapper">
+    <select id="find_this_username" resultType="com.qinbaoge.hngmanagementsystem.Entity.Username"  parameterType="java.lang.String" >
+        select * from kotoumi_genshin_manage_user where username = #{username}
+    </select>
+</mapper>

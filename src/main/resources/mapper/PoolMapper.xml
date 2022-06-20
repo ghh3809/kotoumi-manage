@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qinbaoge.hngmanagementsystem.Mapper.PoolMapper">
+    <select id="Select_AllPoolEvent" resultType="com.qinbaoge.hngmanagementsystem.Entity.PoolEvent">
+        select * from kotoumi_genshin_wish_event order by id desc
+    </select>
+    <select id="Select_FindAllPoolType" resultType="com.qinbaoge.hngmanagementsystem.Entity.PoolEvent">
+        SELECT DISTINCT wish_type FROM kotoumi_genshin_wish_event
+    </select>
+    <select id="Select_ThisPoolEvnet" resultType="com.qinbaoge.hngmanagementsystem.Entity.PoolEvent">
+        select * from kotoumi_genshin_wish_event where id = #{id}
+    </select>
+    <update id="Update_ThisIdPoolEvent" parameterType="com.qinbaoge.hngmanagementsystem.Entity.PoolEvent">
+    update kotoumi_genshin_wish_event set start_time= #{start_time},end_time= #{end_time} where id = #{id}
+</update>
+    <delete id="Delete_ThisPoolEvent" >
+        delete from kotoumi_genshin_wish_event where id =#{id}
+    </delete>
+    <select id="Select_Final_Pool_Event_ID" resultType="int">
+        SELECT id FROM kotoumi_genshin_wish_event  ORDER BY id DESC LIMIT 1
+    </select>
+    <select id="Select_All_This_Rarity" parameterType="com.qinbaoge.hngmanagementsystem.Entity.Unit" resultType="com.qinbaoge.hngmanagementsystem.Entity.Unit">
+        SELECT id,unit_name from kotoumi_genshin_unit where rarity = #{rarity} and unit_type=#{unit_type}
+    </select>
+    <select id="Select_ThisTypePool" parameterType="int" resultType="com.qinbaoge.hngmanagementsystem.Entity.PoolEvent">
+        SELECT * from kotoumi_genshin_wish_event where wish_type = #{wish_type} order by id desc
+    </select>
+    <insert id="Insert_New_PoolEvent">
+        insert into kotoumi_genshin_wish_event(wish_event_name,unit_five_region,unit_four_region,wish_type,start_time,end_time) VALUES('${wish_event_name}','${unit_five_region}','${unit_four_region}',${wish_type},'${start_time}','${end_time}')
+    </insert>
+</mapper>

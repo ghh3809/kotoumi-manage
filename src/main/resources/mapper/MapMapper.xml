@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qinbaoge.hngmanagementsystem.Mapper.MapMapper">
+    <select id="Select_ALL_Normal_Role" resultType="com.qinbaoge.hngmanagementsystem.Entity.UnitMap">
+        SELECT * FROM kotoumi_genshin_wish_unit_map AS a WHERE a.wish_event_id = 4 AND a.unit_id LIKE '1%'
+    </select>
+    <select id="Select_ALL_Normal_Weapon" resultType="com.qinbaoge.hngmanagementsystem.Entity.UnitMap">
+        SELECT * FROM kotoumi_genshin_wish_unit_map AS a WHERE a.wish_event_id = 4 AND a.unit_id LIKE '2%'
+    </select>
+    <insert id="Insert_New_PoolEvent" parameterType="com.qinbaoge.hngmanagementsystem.Entity.UnitMap">
+        insert into kotoumi_genshin_wish_unit_map(wish_event_id,unit_id,is_up) VALUES(${wish_event_id},${unit_id},${is_up})
+    </insert>
+    <select id="Select_Final_Map_ID" resultType="com.qinbaoge.hngmanagementsystem.Entity.UnitMap">
+        SELECT * FROM kotoumi_genshin_wish_unit_map  ORDER BY id DESC LIMIT 1
+    </select>
+</mapper>

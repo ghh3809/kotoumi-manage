@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qinbaoge.hngmanagementsystem.Mapper.UnitMapper">
+    <select id="Select_Unit_Type_1" resultType="com.qinbaoge.hngmanagementsystem.Entity.Unit">
+        select * from kotoumi_genshin_unit where unit_type = 1 order by id desc
+    </select>
+    <select id="Select_Unit_Type_2" resultType="com.qinbaoge.hngmanagementsystem.Entity.Unit">
+        select * from kotoumi_genshin_unit where unit_type = 2 order by id desc
+    </select>
+    <select id="Select_Unit_Type_3" resultType="com.qinbaoge.hngmanagementsystem.Entity.Unit">
+        select * from kotoumi_genshin_unit where unit_type = 3 order by id desc
+    </select>
+    <select id="Select_This_Unit_Type_3" resultType="com.qinbaoge.hngmanagementsystem.Entity.Unit">
+        select * from kotoumi_genshin_unit where id = #{id} order by id desc
+    </select>
+    <update id="Update_ThisIdUnit" parameterType="com.qinbaoge.hngmanagementsystem.Entity.Unit">
+    update kotoumi_genshin_unit set unit_name = #{unit_name},unit_type= #{unit_type},rarity= #{rarity} where id = #{id}
+</update>
+    <delete id="Delete_ThisUnit" >
+        delete from kotoumi_genshin_unit where id =#{id}
+    </delete>
+    <select id="Select_Id_By_Unit_Type" resultType="int">
+        SELECT id FROM kotoumi_genshin_unit WHERE unit_type = #{type} ORDER BY id DESC LIMIT 1
+    </select>
+    <insert id="Insert_New_Unit_Type">
+        INSERT INTO kotoumi_genshin_unit VALUES(#{id},#{unit_type},#{unit_name},#{rarity})
+    </insert>
+    <select id="Select_This_Rarity_All" resultType="com.qinbaoge.hngmanagementsystem.Entity.Unit">
+        SELECT * FROM kotoumi_genshin_unit WHERE rarity = 4 and (unit_type=1 OR unit_type=2)
+    </select>
+</mapper>

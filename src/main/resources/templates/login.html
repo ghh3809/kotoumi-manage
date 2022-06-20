@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>原神☆海鸟阁管理中心-登录</title>
+    <link rel="stylesheet" type="text/css" href="css/zui.css" media="all">
+    <link rel="stylesheet" type="text/css" href="css/login.css" media="all">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/layui.css">
+    <style>
+        body {
+            background-image: url(images/5.png);
+        }
+
+        #login-body {
+            position: relative;
+        }
+
+        #login_bg {
+            background-image: url("images/button.png");
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 80px;
+            height: 90px;
+            background-size: 100% 100%;
+        }
+
+        #login_bg2 {
+            background-image: url("images/button2.png");
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            width: 65px;
+            height: 90px;
+            background-size: 100% 100%;
+        }
+
+        #login_but {
+            background-image: url("images/button_bg.png");
+            width: 320px;
+            height: 160px;
+            background-size: 100% 100%;
+        }
+
+    </style>
+    <script src="js/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+<input id="publicKeyStr" type="hidden" th:value="${publicKeyStr}">
+<div class="login-body  animated fadeInLeft">
+    <div id="login_bg"></div>
+    <div id="login_bg2"></div>
+    <div class="login-main pr">
+        <form id="fjson" class="login-form">
+            <h3 style="color: rgb(108,182,214)"> 原神☆海鸟阁管理中心 </h3>
+            <h5 style="padding-bottom: 10px;color: rgb(229,154,211)"> System Management Center </h5>
+            <!-- 账号登陆 -->
+            <div id="MobileBox" class="item-box">
+                <div class="input-group user-name"><span class="input-group-addon"><i class="icon-user"></i></span>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="用户名">
+                </div>
+                <div class="input-group password"><span class="input-group-addon"><i class="icon-lock"></i></span>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="密码">
+                </div>
+                <div class="login_btn_panel">
+                    <div id="login_but"></div>
+
+                    <div class="check-tips"></div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+<style>
+    .copyrights {
+        text-indent: -9999px;
+        height: 0;
+        line-height: 0;
+        font-size: 0;
+        overflow: hidden;
+    }
+</style>
+<script src="layui.js"></script>
+<script src="js/JSEncrypt.js"></script>
+<script src="js/baoge.js"></script>
+<script>
+    layui.use('layer', function () {
+        var layer = layui.layer;
+    });
+
+    $("#login_but").click(function () {
+        if ($('#username').val() == "") {
+            layer.msg('用户名不能为空', {icon: 5, shade: 0.7});
+            return;
+        }
+        if ($('#password').val() == "") {
+            layer.msg('密码不能为空', {icon: 5, shade: 0.7});
+            return;
+        }
+        var encrypt = new JSEncrypt();
+        encrypt.setPublicKey($("#publicKeyStr").val());
+        var fjson = encrypt.encrypt(JSON.stringify($("#fjson").serializeJson()));
+        $.ajax({
+            type: "POST",
+            async: false,
+            url: "/validatelogin",
+            data: {"fjson": fjson},
+            success: function (result) {
+                if (result == "error_1") {
+                    layer.msg("用户名不存在", {icon: 5, shade: 0.7});
+                } else if (result == "error_2") {
+                    layer.msg("密码错误", {icon: 5, shade: 0.7});
+                } else if (result == "error_3") {
+                    layer.msg("未知错误", {icon: 5, shade: 0.7});
+                } else if (result == "success") {
+                    layer.msg('正在登录...', {
+                        icon: 16
+                        , shade: 0.7
+                        , time: 1000
+                    }, function () {
+                        window.location.href = "/index";
+                    });
+                }
+            }
+        });
+    });
+</script>
+<script src="js/disable_backspace.js"></script>
+</body>
+</html>

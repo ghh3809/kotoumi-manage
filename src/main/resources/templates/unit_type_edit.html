@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/layui.css">
+    <link rel="stylesheet" href="/css/font.css">
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/lib/layui/layui.js" charset="utf-8"></script>
+    <script src="/js/baoge.js"></script>
+    <style>
+        .layui-form-item {
+            margin-right: 20px;
+            margin-top: 10px;
+        }
+
+        .layui-btn-container {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<form class="layui-form" id="fjson">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 80px">对象ID</label>
+        <div class="layui-input-block">
+            <input readonly="readonly" style="pointer-events: none;opacity: 0.5;" type="text" name="id"
+                   lay-verify="title" class="layui-input" th:value="${ThisUnitType.id}" id="id">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 80px">对象名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="unit_name" lay-verify="title" class="layui-input"
+                   th:value="${ThisUnitType.unit_name}" id="unit_name">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 80px">祈愿类型</label>
+        <div class="layui-input-block">
+            <select id="unit_type" name="unit_type">
+                <option th:selected="${ThisUnitType.unit_type=='1'}" th:value="1">角色</option>
+                <option th:selected="${ThisUnitType.unit_type=='2'}" th:value="2">武器</option>
+                <option th:selected="${ThisUnitType.unit_type=='3'}" th:value="3">群友</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 80px">对象稀有度</label>
+        <div class="layui-input-block">
+            <select id="rarity" name="rarity">
+                <option th:selected="${ThisUnitType.rarity=='3'}" th:value="3">3星</option>
+                <option th:selected="${ThisUnitType.rarity=='4'}" th:value="4">4星</option>
+                <option th:selected="${ThisUnitType.rarity=='5'}" th:value="5">5星</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-btn-container">
+        <button type="button" class="layui-btn layui-btn-normal" id="login_but">确定</button>
+        <button type="reset" class="layui-btn layui-btn-warm">重置</button>
+    </div>
+</form>
+
+<script>
+    var laydate = layui.laydate;
+    laydate.render({
+        elem: '#start_time'
+        , type: 'datetime'
+    });
+    laydate.render({
+        elem: '#end_time'
+        , type: 'datetime'
+    });
+    $("#login_but").click(function () {
+        if ($('#unit_name').val() == "") {
+            layer.msg('对象名称不能为空', {icon: 5, shade: 0.7});
+            return;
+        }
+
+        var fjson = JSON.stringify($("#fjson").serializeJson());
+        console.log(fjson);
+        $.ajax({
+            type: "POST",
+            async: false,
+            url: "/to_change_this_unit",
+            data: {"fjson": fjson},
+            success: function (result) {
+                if (result == "success") {
+                    layer.msg('更新成功', {
+                        icon: 16
+                        , shade: 0.7
+                        , time: 500
+                    }, function () {
+                        parent.location.reload();
+                    });
+
+                } else if (result == "error_1") {
+                    layer.msg("更新失败", {icon: 5, shade: 0.7});
+                }
+            }
+        });
+    });
+</script>
+<script src="js/disable_backspace.js"></script>
+</body>
+</html>
