@@ -25,6 +25,6 @@ if [ -n "$pid" ]; then
 fi
 
 echo "starting app....."
-nohup ${JAVA_CMD} -jar "${APP_PATH}" >/dev/null 2>&1 &
+nohup ${JAVA_CMD} -jar -Dfile.encoding=utf-8 "${APP_PATH}" >>${APP_NAME}.log 2>&1 &
 echo "app started ok !"
 
