@@ -152,15 +152,15 @@
 <script>
     function change_sel(sel_value) {
         if (sel_value == 3) {
-            $('#wish_event_name').val('角色UP');
+            $('#wish_event_name').val('角色');
             $('#unit_four_region').val('UP角色:请选择.非up角色:常驻池四星');
             $('#unit_five_region').val('UP角色:请选择.非up角色:常驻池五星');
         } else if (sel_value == 2) {
-            $('#wish_event_name').val('武器UP');
+            $('#wish_event_name').val('武器');
             $('#unit_four_region').val('UP武器:请选择.非up武器:常驻池四星');
             $('#unit_five_region').val('UP武器:请选择.非up武器:常驻池五星');
         } else if (sel_value == 1) {
-            $('#wish_event_name').val('群友UP');
+            $('#wish_event_name').val('群友');
             $('#unit_four_region').val('常驻池四星群友:');
             $('#unit_five_region').val('UP群友:请选择.非up群友:常驻池五星群友');
         }
@@ -292,27 +292,27 @@
                             if(sel_value_new==3){
                                 if(array_5_star.length==0){
                                     $('#unit_five_region').val('UP角色:请选择.非up角色:常驻池五星');
-                                    $('#wish_event_name').val('角色UP');
+                                    $('#wish_event_name').val('角色');
                                     return;
                                 }
                                 $('#unit_five_region').val('UP角色:'+array_5_star.join(',')+'.非up角色:常驻池五星');
-                                $('#wish_event_name').val('角色UP');
+                                $('#wish_event_name').val('角色');
                             }else if(sel_value_new==2){
                                 if(array_5_star.length==0){
                                     $('#unit_five_region').val('UP武器:请选择.非up武器:常驻池五星');
-                                    $('#wish_event_name').val('武器UP');
+                                    $('#wish_event_name').val('武器');
                                     return;
                                 }
                                 $('#unit_five_region').val('UP武器:'+array_5_star.join(',')+'.非up武器:常驻池五星');
-                                $('#wish_event_name').val('武器UP');
+                                $('#wish_event_name').val('武器');
                             }else  if(sel_value_new==1){
                                 if(array_5_star.length==0){
                                     $('#unit_five_region').val('UP群友:请选择.非up群友:常驻池五星');
-                                    $('#wish_event_name').val('群友UP');
+                                    $('#wish_event_name').val('群友');
                                     return;
                                 }
                                 $('#unit_five_region').val('UP群友:'+array_5_star.join(',')+'.非up群友:常驻池五星');
-                                $('#wish_event_name').val('群友UP');
+                                $('#wish_event_name').val('群友');
 
                             }
                         }
